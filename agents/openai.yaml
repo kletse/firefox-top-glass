@@ -1,0 +1,4 @@
+interface:
+  display_name: "Firefox Top Glass"
+  short_description: "Reapply top-only Firefox glass on Omarchy"
+  default_prompt: "Use $firefox-top-glass to install or repair top-only Firefox glass while keeping webpages opaque."
