@@ -5,6 +5,8 @@ toolbars, and address bar are translucent and compositor-blurred; webpages,
 sidebars, panels, and built-in pages remain opaque. A neutral dark theme is
 used by default, with optional bundled themes available through the installer.
 
+![Firefox with translucent top chrome over the Nighthawks wallpaper](example.png)
+
 The repository is also an agent skill. The shell script is the source of truth;
 the skill tells compatible agents, including Codex, when and how to use it.
 
