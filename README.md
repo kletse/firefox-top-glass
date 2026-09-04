@@ -23,6 +23,13 @@ From this checkout:
 Fully close and reopen Firefox after installation. The script does not close
 Firefox automatically.
 
+On Omarchy, Firefox's native titlebar controls are redundant with Hyprland's
+window actions. The shared stylesheet therefore hides the complete native
+control container—including the close button and any minimize/maximize buttons
+exposed by GTK—along with Firefox's adjacent 40 px drag spacers. Removing the
+containers from layout lets the tab strip use the reclaimed width instead of
+leaving an empty placeholder at the edge of the window.
+
 Optional convenient links:
 
 ```bash

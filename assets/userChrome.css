@@ -50,6 +50,12 @@ body,
   color: var(--firefox-top-glass-text) !important;
 }
 
+/* Hyprland makes Firefox's native controls and adjacent drag space redundant. */
+.titlebar-buttonbox-container,
+.titlebar-spacer {
+  display: none !important;
+}
+
 /* Keep the page surface and non-top UI completely opaque. */
 #browser,
 #tabbrowser-tabbox,

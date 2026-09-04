@@ -48,6 +48,9 @@ HOME="$TEST_HOME" XDG_CONFIG_HOME="$TEST_CONFIG" \
 grep -Fqx '/* BEGIN firefox-top-glass */' "$PROFILE/chrome/userChrome.css"
 grep -Fqx '/* firefox-top-glass theme: dark */' "$PROFILE/chrome/userChrome.css"
 grep -Fqx '  --firefox-top-glass-focus: #60a5fa;' "$PROFILE/chrome/userChrome.css"
+grep -Fqx '.titlebar-buttonbox-container,' "$PROFILE/chrome/userChrome.css"
+grep -A2 -F '.titlebar-buttonbox-container,' "$PROFILE/chrome/userChrome.css" |
+  grep -Fqx '  display: none !important;'
 grep -Fqx '// BEGIN firefox-top-glass' "$PROFILE/user.js"
 grep -Fqx -- '-- BEGIN firefox-top-glass' "$HYPR_DIR/firefox-top-glass.lua"
 grep -Fq 'require("hypr.firefox-top-glass")' "$HYPR_DIR/hyprland.lua"
