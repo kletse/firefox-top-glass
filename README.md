@@ -4,8 +4,8 @@ Reproducible top-only glass for Firefox on Omarchy/Hyprland. Firefox's tabs,
 toolbars, and address bar are translucent and compositor-blurred; webpages,
 sidebars, panels, and built-in pages remain opaque.
 
-The repository is also a Codex skill. The shell script is the source of truth;
-the skill tells an agent when and how to use it.
+The repository is also an agent skill. The shell script is the source of truth;
+the skill tells compatible agents, including Codex, when and how to use it.
 
 ## Use
 
@@ -22,13 +22,13 @@ Firefox automatically.
 Optional convenient links:
 
 ```bash
-mkdir -p ~/.local/bin ~/.codex/skills
+mkdir -p ~/.local/bin ~/.agents/skills
 ln -s /path/to/firefox-top-glass/scripts/firefox-top-glass ~/.local/bin/firefox-top-glass
-ln -s /path/to/firefox-top-glass ~/.codex/skills/firefox-top-glass
+ln -s /path/to/firefox-top-glass ~/.agents/skills/firefox-top-glass
 ```
 
-Then use `firefox-top-glass install` or ask Codex to use
-`$firefox-top-glass`.
+Then use `firefox-top-glass install` or ask a compatible agent to use
+`$firefox-top-glass`. Codex also discovers skills installed in `~/.agents/skills`.
 
 ## Commands
 
