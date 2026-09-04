@@ -1,34 +1,30 @@
 :root {
-  color-scheme: dark !important;
-
-  --firefox-top-glass-surface: rgba(14, 15, 14, 0.42);
-  --firefox-top-glass-raised: rgba(31, 33, 31, 0.58);
-  --firefox-top-glass-border: rgba(92, 96, 95, 0.55);
+  color-scheme: var(--firefox-top-glass-color-scheme) !important;
 
   --lwt-accent-color: transparent !important;
   --lwt-accent-color-inactive: transparent !important;
-  --lwt-text-color: #dbdab8 !important;
+  --lwt-text-color: var(--firefox-top-glass-text) !important;
   --toolbar-bgcolor: transparent !important;
-  --toolbar-color: #dbdab8 !important;
+  --toolbar-color: var(--firefox-top-glass-text) !important;
   --toolbar-field-background-color: var(--firefox-top-glass-raised) !important;
-  --toolbar-field-color: #eeedd5 !important;
+  --toolbar-field-color: var(--firefox-top-glass-field-text) !important;
   --toolbar-field-border-color: var(--firefox-top-glass-border) !important;
-  --toolbar-field-focus-background-color: rgba(31, 33, 31, 0.74) !important;
-  --toolbar-field-focus-color: #fafaea !important;
-  --toolbar-field-focus-border-color: #096945 !important;
-  --toolbar-field-highlight: #583326 !important;
-  --toolbar-field-highlight-color: #fafaea !important;
+  --toolbar-field-focus-background-color: var(--firefox-top-glass-raised-focus) !important;
+  --toolbar-field-focus-color: var(--firefox-top-glass-strong-text) !important;
+  --toolbar-field-focus-border-color: var(--firefox-top-glass-focus) !important;
+  --toolbar-field-highlight: var(--firefox-top-glass-selection) !important;
+  --toolbar-field-highlight-color: var(--firefox-top-glass-strong-text) !important;
   --tab-selected-bgcolor: var(--firefox-top-glass-raised) !important;
-  --tab-selected-textcolor: #fafaea !important;
-  --tab-hover-background-color: rgba(31, 33, 31, 0.42) !important;
-  --button-hover-bgcolor: rgba(31, 33, 31, 0.48) !important;
-  --button-active-bgcolor: rgba(88, 51, 38, 0.68) !important;
-  --arrowpanel-background: #0e0f0e !important;
-  --arrowpanel-color: #dbdab8 !important;
-  --arrowpanel-border-color: #5c605f !important;
-  --panel-separator-color: #1f211f !important;
-  --sidebar-background-color: #0e0f0e !important;
-  --sidebar-text-color: #dbdab8 !important;
+  --tab-selected-textcolor: var(--firefox-top-glass-strong-text) !important;
+  --tab-hover-background-color: var(--firefox-top-glass-hover) !important;
+  --button-hover-bgcolor: var(--firefox-top-glass-button-hover) !important;
+  --button-active-bgcolor: var(--firefox-top-glass-active) !important;
+  --arrowpanel-background: var(--firefox-top-glass-opaque) !important;
+  --arrowpanel-color: var(--firefox-top-glass-text) !important;
+  --arrowpanel-border-color: var(--firefox-top-glass-border) !important;
+  --panel-separator-color: var(--firefox-top-glass-separator) !important;
+  --sidebar-background-color: var(--firefox-top-glass-opaque) !important;
+  --sidebar-text-color: var(--firefox-top-glass-text) !important;
 }
 
 /* Firefox 153+ paints an opaque chrome document body unless it is cleared. */
@@ -42,7 +38,7 @@ body,
 #navigator-toolbox {
   appearance: none !important;
   background: var(--firefox-top-glass-surface) !important;
-  border-bottom: 1px solid rgba(92, 96, 95, 0.30) !important;
+  border-bottom: 1px solid var(--firefox-top-glass-border-soft) !important;
 }
 
 #nav-bar,
@@ -51,7 +47,7 @@ body,
 #titlebar {
   appearance: none !important;
   background: transparent !important;
-  color: #dbdab8 !important;
+  color: var(--firefox-top-glass-text) !important;
 }
 
 /* Keep the page surface and non-top UI completely opaque. */
@@ -61,17 +57,17 @@ body,
 .browserContainer,
 #sidebar-box,
 findbar {
-  background: #0e0f0e !important;
+  background: var(--firefox-top-glass-opaque) !important;
 }
 
 .tabbrowser-tab[selected] .tab-background {
   background-color: var(--firefox-top-glass-raised) !important;
-  border: 1px solid rgba(92, 96, 95, 0.28) !important;
+  border: 1px solid var(--firefox-top-glass-border-faint) !important;
   box-shadow: none !important;
 }
 
 .tabbrowser-tab:not([selected]):hover .tab-background {
-  background-color: rgba(31, 33, 31, 0.42) !important;
+  background-color: var(--firefox-top-glass-hover) !important;
 }
 
 #urlbar-background,
@@ -83,26 +79,26 @@ findbar {
 
 #urlbar[focused] > #urlbar-background,
 #searchbar:focus-within {
-  border-color: #096945 !important;
-  box-shadow: 0 0 0 1px #096945 !important;
+  border-color: var(--firefox-top-glass-focus) !important;
+  box-shadow: 0 0 0 1px var(--firefox-top-glass-focus) !important;
 }
 
 menupopup,
 panel,
 tooltip {
-  --panel-background: #0e0f0e !important;
-  --panel-color: #dbdab8 !important;
-  --panel-border-color: #5c605f !important;
-  color-scheme: dark !important;
+  --panel-background: var(--firefox-top-glass-opaque) !important;
+  --panel-color: var(--firefox-top-glass-text) !important;
+  --panel-border-color: var(--firefox-top-glass-border) !important;
+  color-scheme: var(--firefox-top-glass-color-scheme) !important;
 }
 
 menuitem[_moz-menuactive="true"],
 menu[_moz-menuactive="true"] {
-  background-color: #1f211f !important;
-  color: #fafaea !important;
+  background-color: var(--firefox-top-glass-separator) !important;
+  color: var(--firefox-top-glass-strong-text) !important;
 }
 
 ::selection {
-  background-color: #583326 !important;
-  color: #fafaea !important;
+  background-color: var(--firefox-top-glass-selection) !important;
+  color: var(--firefox-top-glass-strong-text) !important;
 }

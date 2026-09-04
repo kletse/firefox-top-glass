@@ -13,7 +13,9 @@ the CSS, preferences, or Hyprland rules by hand.
 1. Run `scripts/firefox-top-glass status` to discover the active Firefox
    profile and inspect the managed components.
 2. When the user asks to apply or repair the effect, run
-   `scripts/firefox-top-glass install`.
+   `scripts/firefox-top-glass install`. This installs the default `dark` theme.
+   When the user requests a bundled theme, pass `--theme <name>`; currently
+   available themes are `dark` and `nighthawks`.
 3. Report that Firefox must be fully closed and reopened once. Do not close a
    running browser without the user's confirmation because tabs may contain
    unsaved work.
@@ -22,7 +24,9 @@ the CSS, preferences, or Hyprland rules by hand.
 The installer creates timestamped backups and upserts marked blocks, preserving
 unrelated Firefox and Hyprland customizations. It must never apply whole-window
 opacity: Firefox's web-content surface stays opaque while only the chrome uses
-per-pixel alpha.
+per-pixel alpha. Do not edit generated CSS in the Firefox profile; theme color
+tokens live in `assets/themes/` and shared glass behavior lives in
+`assets/userChrome.css`.
 
 If the installer cannot reach the live Hyprland socket, the file changes are
 still valid. Follow the Omarchy skill to run `hyprctl reload` and

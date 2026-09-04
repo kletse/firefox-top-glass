@@ -2,7 +2,8 @@
 
 Reproducible top-only glass for Firefox on Omarchy/Hyprland. Firefox's tabs,
 toolbars, and address bar are translucent and compositor-blurred; webpages,
-sidebars, panels, and built-in pages remain opaque.
+sidebars, panels, and built-in pages remain opaque. A neutral dark theme is
+used by default, with optional bundled themes available through the installer.
 
 The repository is also an agent skill. The shell script is the source of truth;
 the skill tells compatible agents, including Codex, when and how to use it.
@@ -14,6 +15,7 @@ From this checkout:
 ```bash
 ./scripts/firefox-top-glass status
 ./scripts/firefox-top-glass install
+./scripts/firefox-top-glass install --theme nighthawks
 ```
 
 Fully close and reopen Firefox after installation. The script does not close
@@ -33,7 +35,7 @@ Then use `firefox-top-glass install` or ask a compatible agent to use
 ## Commands
 
 ```text
-firefox-top-glass install [--profile PATH] [--no-reload]
+firefox-top-glass install [--theme NAME] [--profile PATH] [--no-reload]
 firefox-top-glass status  [--profile PATH]
 firefox-top-glass remove  [--profile PATH] [--no-reload]
 ```
@@ -47,5 +49,22 @@ idempotent and preserve unrelated customizations.
 Firefox may retain their last values in `prefs.js`; reset them in `about:config`
 if complete preference restoration is required.
 
-The colors in `assets/userChrome.css` match the Nighthawks palette. Edit that
-asset to create another palette, then rerun `install`.
+## Themes
+
+`dark` is the default, so these commands are equivalent:
+
+```bash
+firefox-top-glass install
+firefox-top-glass install --theme dark
+```
+
+The bundled themes are:
+
+| Theme | Description |
+| --- | --- |
+| `dark` | Neutral dark colors with a conventional blue focus accent. |
+| `nighthawks` | Warm text with deep green and brown accents. |
+
+Theme files live in `assets/themes/` and contain only color variables. The
+shared glass behavior and Firefox selectors remain in `assets/userChrome.css`,
+so additional themes can be added without duplicating the implementation.

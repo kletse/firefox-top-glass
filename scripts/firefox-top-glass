@@ -12,9 +12,11 @@ JS_BEGIN='// BEGIN firefox-top-glass'
 JS_END='// END firefox-top-glass'
 LUA_BEGIN='-- BEGIN firefox-top-glass'
 LUA_END='-- END firefox-top-glass'
+THEME_MARKER_PREFIX='/* firefox-top-glass theme: '
 
 ACTION=install
 ACTION_SET=0
+THEME=dark
 PROFILE_OVERRIDE=''
 FIREFOX_ROOT_OVERRIDE=''
 HYPR_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/hypr"
@@ -22,12 +24,14 @@ RELOAD_HYPRLAND=1
 CHANGED=0
 TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
 TMP_PATHS=()
+CHROME_ASSET=''
 
 usage() {
   cat <<EOF
 Usage: $PROGRAM [install|status|remove] [options]
 
 Options:
+  --theme NAME        Use a bundled chrome theme (default: dark).
   --profile PATH       Use an explicit Firefox profile directory.
   --firefox-root PATH  Use an explicit Firefox profiles root.
   --hypr-dir PATH      Use an explicit Omarchy Hyprland config directory.
@@ -69,6 +73,11 @@ while (($#)); do
       PROFILE_OVERRIDE=$2
       shift 2
       ;;
+    --theme)
+      (($# >= 2)) || die '--theme requires a name'
+      THEME=$2
+      shift 2
+      ;;
     --firefox-root)
       (($# >= 2)) || die '--firefox-root requires a path'
       FIREFOX_ROOT_OVERRIDE=$2
@@ -96,6 +105,28 @@ done
 for asset in userChrome.css user.js firefox-top-glass.lua hyprland-require.lua; do
   [[ -f "$ASSETS_DIR/$asset" ]] || die "missing repository asset: $ASSETS_DIR/$asset"
 done
+
+available_themes() {
+  local path=''
+  local name=''
+  local separator=''
+
+  shopt -s nullglob
+  for path in "$ASSETS_DIR"/themes/*.css; do
+    name=${path##*/}
+    name=${name%.css}
+    printf '%s%s' "$separator" "$name"
+    separator=', '
+  done
+  shopt -u nullglob
+  printf '\n'
+}
+
+[[ "$THEME" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die "invalid theme name: $THEME"
+THEME_ASSET="$ASSETS_DIR/themes/$THEME.css"
+if [[ ! -f "$THEME_ASSET" ]]; then
+  die "unknown theme '$THEME'; available themes: $(available_themes)"
+fi
 
 detect_firefox_root() {
   local candidate
@@ -367,6 +398,31 @@ has_block() {
   [[ "$begin_count" == '1' && "$end_count" == '1' ]]
 }
 
+build_chrome_asset() {
+  CHROME_ASSET=$(mktemp)
+  TMP_PATHS+=("$CHROME_ASSET")
+  {
+    printf '%s%s */\n' "$THEME_MARKER_PREFIX" "$THEME"
+    cat "$THEME_ASSET"
+    printf '\n'
+    cat "$ASSETS_DIR/userChrome.css"
+  } >"$CHROME_ASSET"
+}
+
+installed_theme() {
+  local marker=''
+
+  [[ -f "$USER_CHROME" ]] || return 0
+  marker=$(awk -v begin="$CSS_BEGIN" -v end="$CSS_END" -v prefix="$THEME_MARKER_PREFIX" '
+    $0 == begin { inside = 1; next }
+    $0 == end { exit }
+    inside && index($0, prefix) == 1 { print; exit }
+  ' "$USER_CHROME")
+  [[ -n "$marker" ]] || return 0
+  marker=${marker#"$THEME_MARKER_PREFIX"}
+  printf '%s\n' "${marker% */}"
+}
+
 reload_hyprland() {
   local errors=''
 
@@ -391,6 +447,7 @@ reload_hyprland() {
 
 show_status() {
   local missing=0
+  local theme=''
   local spec=''
   local label=''
   local target=''
@@ -411,21 +468,26 @@ show_status() {
       missing=1
     fi
   done
+  if has_block "$USER_CHROME" "$CSS_BEGIN" "$CSS_END"; then
+    theme=$(installed_theme)
+    printf 'Theme: %s\n' "${theme:-legacy/unknown}"
+  fi
   return "$missing"
 }
 
 case "$ACTION" in
   install)
     [[ -f "$HYPR_MAIN" ]] || die "Omarchy Hyprland config not found: $HYPR_MAIN"
-    upsert_block "$USER_CHROME" "$CSS_BEGIN" "$CSS_END" "$ASSETS_DIR/userChrome.css"
+    build_chrome_asset
+    upsert_block "$USER_CHROME" "$CSS_BEGIN" "$CSS_END" "$CHROME_ASSET"
     upsert_block "$USER_JS" "$JS_BEGIN" "$JS_END" "$ASSETS_DIR/user.js"
     upsert_block "$HYPR_MODULE" "$LUA_BEGIN" "$LUA_END" "$ASSETS_DIR/firefox-top-glass.lua"
     upsert_block "$HYPR_MAIN" "$LUA_BEGIN" "$LUA_END" "$ASSETS_DIR/hyprland-require.lua"
     reload_hyprland
     if ((CHANGED == 0)); then
-      printf 'Firefox Top Glass is already up to date.\n'
+      printf 'Firefox Top Glass is already up to date (theme: %s).\n' "$THEME"
     else
-      printf 'Installed Firefox Top Glass. Fully close and reopen Firefox once.\n'
+      printf 'Installed Firefox Top Glass (theme: %s). Fully close and reopen Firefox once.\n' "$THEME"
     fi
     ;;
   status)

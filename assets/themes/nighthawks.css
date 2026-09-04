@@ -1,0 +1,19 @@
+:root {
+  --firefox-top-glass-color-scheme: dark;
+  --firefox-top-glass-surface: rgba(14, 15, 14, 0.42);
+  --firefox-top-glass-raised: rgba(31, 33, 31, 0.58);
+  --firefox-top-glass-raised-focus: rgba(31, 33, 31, 0.74);
+  --firefox-top-glass-border: rgba(92, 96, 95, 0.55);
+  --firefox-top-glass-border-soft: rgba(92, 96, 95, 0.30);
+  --firefox-top-glass-border-faint: rgba(92, 96, 95, 0.28);
+  --firefox-top-glass-text: #dbdab8;
+  --firefox-top-glass-field-text: #eeedd5;
+  --firefox-top-glass-strong-text: #fafaea;
+  --firefox-top-glass-focus: #096945;
+  --firefox-top-glass-selection: #583326;
+  --firefox-top-glass-hover: rgba(31, 33, 31, 0.42);
+  --firefox-top-glass-button-hover: rgba(31, 33, 31, 0.48);
+  --firefox-top-glass-active: rgba(88, 51, 38, 0.68);
+  --firefox-top-glass-opaque: #0e0f0e;
+  --firefox-top-glass-separator: #1f211f;
+}
